@@ -2,44 +2,41 @@ const axios = require('axios');
 
 exports.getPokedex = async (req, res) => {
     try {
-        const pokedexResponse = await axios.get('https://pokeapi.co/api/v2/pokedex/1');
-        const pokedexData = pokedexResponse.data.pokemon_entries;
-        let pokemonArray = [];
+        // Dynamiczny import Pokedex z ESM
+        const Pokedex = await import('pokedex-promise-v2');
+        const P = new Pokedex.default();
 
-        // Limit iteracji do 30
-        const limit = 30;
-        const iterations = Math.min(pokedexData.length, limit);
-
-        for (let i = 0; i < iterations; i++) {
-            let entry = pokedexData[i];
-            try {
-                let responsePokemonApi = await axios.get(`https://pokeapi.co/api/v2/pokemon/${entry.entry_number}`);
-                let responsePokemon = responsePokemonApi.data;
-
-                let pokemonData = {
-                    id: responsePokemon.id,
-                    name: responsePokemon.name,
-                    types: responsePokemon.types.map(typeInfo => typeInfo.type.name),
-                    image: `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/${pad(entry.entry_number, 3)}.png` // Zmieniona końcówka URL
-                };
-
-                pokemonArray.push(pokemonData);
-            } catch (error) {
-                console.error(`Error fetching data for Pokemon entry number ${entry.entry_number}: ${error.message}`);
-            }
+        function pad(number, length) {
+            return number.toString().padStart(length, '0');
         }
 
-        console.log(pokemonArray);
-        res.status(200).json(pokemonArray);
+        // Parse page and limit query parameters
+        const page = parseInt(req.query.page) || 2;
+        const limit = parseInt(req.query.limit) || 30;
+        const offset = (page - 1) * limit;
+
+        // Fetch Pokémon forms with pagination
+        const results = await P.getPokemonFormsList({ offset, limit });
+        const promises = results.results.map(pokemon => P.getPokemonByName(pokemon.name));
+        const pokemonDetailsArray = await Promise.all(promises);
+
+        // Prepare the Pokémon data
+        const pokemonArray = pokemonDetailsArray.map(pokemonDetails => ({
+            id: pokemonDetails.id,
+            name: pokemonDetails.name,
+            types: pokemonDetails.types.map(typeInfo => typeInfo.type.name),
+            image: `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/${pad(pokemonDetails.id, 3)}.png`
+        }));
+
+        // Return the paginated response with additional pagination info
+        res.status(200).json({
+            totalEntries: results.count,
+            totalPages: Math.ceil(results.count / limit),
+            currentPage: page,
+            pokemon: pokemonArray
+        });
     } catch (error) {
         console.error('Error fetching Pokedex data:', error.message);
         res.status(500).json({ message: 'Error fetching Pokedex data from PokeAPI', error: error.message });
     }
 };
-
-// Funkcja do dopełniania liczby zerami z przodu
-function pad(num, size) {
-    let s = num + "";
-    while (s.length < size) s = "0" + s;
-    return s;
-}
