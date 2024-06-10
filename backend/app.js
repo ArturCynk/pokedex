@@ -7,6 +7,6 @@ const port = 5000
 
 app.use(cors());
 
-app.use(routesPokedex);
+app.use('/api/pokedex',routesPokedex);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

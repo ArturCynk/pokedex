@@ -1,47 +1,79 @@
+// Header.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importuj styl Bootstrapa
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styled from 'styled-components';
+import useNavbarToggle from './useNavbarToggle';
 
-// Komponent nagłówka
+const Navbar = styled.nav`
+  background-color: #343a40;
+  padding: 1rem;
+`;
+
+const NavBrand = styled(NavLink)`
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+`;
+
+const NavItem = styled(NavLink)`
+  color: #adb5bd;
+  margin-left: 1rem;
+  text-decoration: none;
+
+  &.active {
+    color: #fff;
+  }
+`;
+
 const Header = () => {
+  const { isCollapsed, toggleNavbar } = useNavbarToggle();
+
   return (
-    <header className="bg-dark py-4">
-      <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-dark">
-          <NavLink className="navbar-brand" to="/">Pokemons</NavLink>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <header>
+      <Navbar className="navbar navbar-expand-lg navbar-dark">
+        <div className="container">
+          <NavBrand to="/">Pokemons</NavBrand>
+          <button
+            className="navbar-toggler"
+            type="button"
+            onClick={toggleNavbar}
+            aria-controls="navbarNav"
+            aria-expanded={!isCollapsed}
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className={`collapse navbar-collapse ${isCollapsed ? '' : 'show'}`} id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/pokedex">Pokedex</NavLink>
+                <NavItem className="nav-link" to="/pokedex">Pokedex</NavItem>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/moves">Ruchy</NavLink>
+                <NavItem className="nav-link" to="/moves">Ruchy</NavItem>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/abilities">Zdolności</NavLink>
+                <NavItem className="nav-link" to="/abilities">Zdolności</NavItem>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/items">Przedmioty</NavLink>
+                <NavItem className="nav-link" to="/items">Przedmioty</NavItem>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/locations">Lokalizacje</NavLink>
+                <NavItem className="nav-link" to="/locations">Lokalizacje</NavItem>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/types">Typy</NavLink>
+                <NavItem className="nav-link" to="/types">Typy</NavItem>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/natures">Natury</NavLink>
+                <NavItem className="nav-link" to="/natures">Natury</NavItem>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/berries">Berry</NavLink>
+                <NavItem className="nav-link" to="/berries">Berry</NavItem>
               </li>
             </ul>
           </div>
-        </nav>
-      </div>
+        </div>
+      </Navbar>
     </header>
   );
 };

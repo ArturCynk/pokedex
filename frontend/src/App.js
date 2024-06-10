@@ -3,12 +3,9 @@ import { BrowserRouter as Router, NavLink, Routes, Route } from 'react-router-do
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importuj styl Bootstrapa
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
+import Pokedex from './components/pokedex/Pokedex';
 
 
-// Komponenty dla poszczególnych stron
-const Pokedex = () => {
-  return <h2>Pokedex</h2>;
-};
 
 const Moves = () => {
   return <h2>Ruchy</h2>;

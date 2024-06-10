@@ -3,6 +3,7 @@ const { getPokedex } = require('../controllers/pokedex');
 
 const routesPokedex = express.Router();
 
-routesPokedex.get('/api/pokedex',getPokedex);
+routesPokedex.get('/',getPokedex);
+routesPokedex.get('/:name')
 
 module.exports = routesPokedex;

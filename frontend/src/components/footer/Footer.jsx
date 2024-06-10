@@ -7,18 +7,19 @@ const FooterWrapper = styled.footer`
   color: white;
   text-align: center;
   padding: 20px 0;
-  position: fixed;
   width: 100%;
   bottom: 0;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+
 `;
 
 const FooterLink = styled.a`
-  color: white;
+  color: #adb5bd;
   text-decoration: none;
   margin: 0 10px;
   &:hover {
     text-decoration: underline;
+    color: #fff;
   }
 `;
 
