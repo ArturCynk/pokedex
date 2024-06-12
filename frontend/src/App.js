@@ -4,6 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Importuj styl Bootstrapa
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Pokedex from './components/pokedex/Pokedex';
+import PokemonDetails from './components/pokemonDetails/PokemonDetails';
+import styled from 'styled-components';
+
+const AppContainer = styled.div`
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 20px;
+`;
 
 
 
@@ -41,10 +50,12 @@ const App = () => {
     <Router>
       <div>
         <Header />
-        <main className="container">
+        <AppContainer>
           {/* Definicje tras wewnątrz komponentu <Routes> */}
           <Routes>
             <Route path="/pokedex" element={<Pokedex />} />
+            <Route path="/pokemon/:name" element={<PokemonDetails />} />
+
             <Route path="/moves" element={<Moves />} />
             <Route path="/abilities" element={<Abilities />} />
             <Route path="/items" element={<Items />} />
@@ -53,7 +64,7 @@ const App = () => {
             <Route path="/natures" element={<Natures />} />
             <Route path="/berries" element={<Berries />} />
           </Routes>
-        </main>
+        </AppContainer>
         <Footer />
       </div>
     </Router>
