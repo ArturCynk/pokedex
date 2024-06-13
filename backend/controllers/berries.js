@@ -32,3 +32,15 @@ exports.getBerrys = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+exports.getBerry = async (req,res) => {
+    try {
+        const Pokedex = await import('pokedex-promise-v2');
+        const P = new Pokedex.default();
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
