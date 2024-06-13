@@ -6,6 +6,7 @@ import Footer from './components/footer/Footer';
 import Pokedex from './components/pokedex/Pokedex';
 import PokemonDetails from './components/pokemonDetails/PokemonDetails';
 import styled from 'styled-components';
+import Berrys from './components/Berries/Berries';
 
 const AppContainer = styled.div`
   font-family: 'Arial', sans-serif;
@@ -40,18 +41,12 @@ const Natures = () => {
   return <h2>Natury</h2>;
 };
 
-const Berries = () => {
-  return <h2>Berry</h2>;
-};
-
-// Główny komponent aplikacji
 const App = () => {
   return (
     <Router>
       <div>
         <Header />
         <AppContainer>
-          {/* Definicje tras wewnątrz komponentu <Routes> */}
           <Routes>
             <Route path="/pokedex" element={<Pokedex />} />
             <Route path="/pokemon/:name" element={<PokemonDetails />} />
@@ -62,7 +57,7 @@ const App = () => {
             <Route path="/locations" element={<Locations />} />
             <Route path="/types" element={<Types />} />
             <Route path="/natures" element={<Natures />} />
-            <Route path="/berries" element={<Berries />} />
+            <Route path="/berries" element={<Berrys />} />
           </Routes>
         </AppContainer>
         <Footer />

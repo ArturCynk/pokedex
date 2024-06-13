@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const routesPokedex = require('./routes/pokedex');
-const routesBerry = require('./routes/berry');
+const routesBerry = require('./routes/berries');
 
 const app = express()
 const port = 5000

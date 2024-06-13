@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBerrys } = require('../controllers/berry');
+const { getBerrys } = require('../controllers/berries');
 
 const routesBerry = express.Router();
 

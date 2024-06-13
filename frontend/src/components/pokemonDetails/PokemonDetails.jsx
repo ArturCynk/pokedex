@@ -203,14 +203,6 @@ const StatName = styled.span`
   color: #495057;
 `;
 
-const StatValue = styled.span`
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #343a40;
-  display: block;
-  margin-top: 5px;
-`;
-
 const StatBarContainer = styled.div`
   width: 100%;
   background-color: #dee2e6;
