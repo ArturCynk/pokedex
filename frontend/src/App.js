@@ -7,6 +7,7 @@ import Pokedex from './components/pokedex/Pokedex';
 import PokemonDetails from './components/pokemonDetails/PokemonDetails';
 import styled from 'styled-components';
 import Berrys from './components/Berries/Berries';
+import Berry from './components/Berry/Berry';
 
 const AppContainer = styled.div`
   font-family: 'Arial', sans-serif;
@@ -58,6 +59,7 @@ const App = () => {
             <Route path="/types" element={<Types />} />
             <Route path="/natures" element={<Natures />} />
             <Route path="/berries" element={<Berrys />} />
+            <Route path="/berries/:name" element={<Berry />} />
           </Routes>
         </AppContainer>
         <Footer />

@@ -34,10 +34,37 @@ exports.getBerrys = async (req, res) => {
 };
 
 
-exports.getBerry = async (req,res) => {
+exports.getBerry = async (req, res) => {
     try {
         const Pokedex = await import('pokedex-promise-v2');
         const P = new Pokedex.default();
+
+        let name = req.params.name;
+        let berryItem = await P.getItemByName(name);
+
+        const cherryName = name.split('-')[0];
+        let berry = await P.getBerryByName(cherryName)
+        
+        //held_by_pokemon
+        let helds = await Promise.all(berryItem.held_by_pokemon.map(async held => {
+            const pokemon = await P.getPokemonByName(held.pokemon.name);
+            return {
+                pokemon: held.pokemon.name,
+                image: pokemon.sprites.other['official-artwork'].front_default,
+                types: pokemon.types.map(typeInfo => typeInfo.type.name)
+            };
+        }));
+
+        res.status(200).json({
+            category : berryItem.category.name,
+            effect : berryItem.effect_entries[0].effect.slice(19),
+            shortEffect : berryItem.effect_entries[0].short_effect.slice(15),
+            name : berryItem.name,
+            image : berryItem.sprites.default,
+            flavor : berry.flavors.map((flavor) => flavor.flavor.name),
+            held : helds,
+            flavorText : berryItem.flavor_text_entries.filter(flavor => flavor.language.name == 'en')[0].text
+        });
 
     } catch (error) {
         console.error(error);
